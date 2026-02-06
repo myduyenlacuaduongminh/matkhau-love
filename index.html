@@ -15,7 +15,8 @@
 
     body {
       height: 100dvh;
-      background: radial-gradient(circle at 50% 30%, #2a0b3d 0%, #0f001a 70%);
+      /* Hình nền sinh động hơn, gradient tím hồng lãng mạn + hiệu ứng nhẹ */
+      background: linear-gradient(135deg, #1a0033 0%, #2e004f 30%, #4a007a 60%, #6b00a8 100%);
       color: #fff;
       font-family: 'Inter', sans-serif;
       overflow: hidden;
@@ -25,28 +26,40 @@
       position: relative;
     }
 
-    /* Particles sao bay lãng mạn */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(186, 85, 211, 0.18) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Sao bay sinh động, mượt hơn, lãng mạn hơn */
     .stars {
       position: absolute;
       inset: 0;
       overflow: hidden;
       pointer-events: none;
+      z-index: 0;
     }
     .star {
       position: absolute;
-      background: #fff;
+      background: linear-gradient(white, #ffccff);
       border-radius: 50%;
+      box-shadow: 0 0 8px rgba(255, 204, 255, 0.8);
       opacity: 0;
-      animation: twinkle linear infinite;
+      animation: float linear infinite;
     }
-    @keyframes twinkle {
-      0%   { opacity: 0; transform: translateY(100vh) scale(0.5); }
-      20%  { opacity: 0.9; }
-      80%  { opacity: 0.9; }
-      100% { opacity: 0; transform: translateY(-30vh) scale(1); }
+    @keyframes float {
+      0%   { opacity: 0; transform: translateY(120vh) scale(0.3) rotate(0deg); }
+      10%  { opacity: 0.9; }
+      90%  { opacity: 0.9; }
+      100% { opacity: 0; transform: translateY(-40vh) scale(1.2) rotate(360deg); }
     }
 
-    /* Card chính */
+    /* Card giữ nguyên như cũ */
     .card {
       width: 340px;
       max-width: 92vw;
@@ -147,7 +160,7 @@
       font-weight: 400;
     }
 
-    /* Loading screen */
+    /* Loading giữ nguyên */
     .loading-screen {
       position: fixed;
       inset: 0;
@@ -195,10 +208,10 @@
 </head>
 <body>
 
-  <!-- Sao bay lãng mạn -->
+  <!-- Sao bay sinh động -->
   <div class="stars" id="stars"></div>
 
-  <!-- Card chính -->
+  <!-- Card giữ nguyên nội dung -->
   <div class="card">
     <div class="title">Ngày Ta Chung Đôi</div>
 
@@ -226,7 +239,7 @@
     <div class="hint">Gợi ý: Ngày kỷ niệm</div>
   </div>
 
-  <!-- Loading khi đúng -->
+  <!-- Loading giữ nguyên -->
   <div class="loading-screen" id="loading">
     <div class="heart"></div>
     <div class="loading-text">Đang mở kỷ niệm của chúng ta...</div>
@@ -240,18 +253,18 @@
     const loading = document.getElementById("loading");
     const card = document.querySelector(".card");
 
-    // Tạo sao bay
+    // Tạo sao bay (số lượng tăng, tốc độ đa dạng hơn cho sinh động)
     function createStars() {
       const container = document.getElementById("stars");
-      for (let i = 0; i < 140; i++) {
+      for (let i = 0; i < 180; i++) {  // tăng lên 180 sao cho dày đặc, lãng mạn hơn
         const star = document.createElement("div");
         star.className = "star";
-        const size = Math.random() * 3 + 1;
+        const size = Math.random() * 3.5 + 0.8;
         star.style.width = star.style.height = size + "px";
         star.style.left = Math.random() * 100 + "vw";
-        star.style.top = Math.random() * 120 + "vh";
-        star.style.animationDuration = (Math.random() * 8 + 6) + "s";
-        star.style.animationDelay = "-" + Math.random() * 12 + "s";
+        star.style.top = Math.random() * 140 + "vh";
+        star.style.animationDuration = (Math.random() * 10 + 8) + "s";  // tốc độ chậm rãi, bay chậm
+        star.style.animationDelay = "-" + Math.random() * 15 + "s";
         container.appendChild(star);
       }
     }
@@ -310,7 +323,7 @@
       }
     });
 
-    // Khởi tạo
+    // Khởi tạo sao bay
     createStars();
   </script>
 </body>
