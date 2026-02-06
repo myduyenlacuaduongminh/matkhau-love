@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Một ngày khó quên</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-S..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
     * {
@@ -42,7 +43,6 @@
     body::before { top: -150px; left: -120px; background: rgba(255,100,200,0.18); }
     body::after { bottom: -200px; right: -200px; background: rgba(140,80,255,0.18); }
 
-    /* Sao rơi + trái tim hồng pastel rơi cùng (lãng mạn hơn) */
     .particles {
       position: absolute;
       inset: 0;
@@ -65,7 +65,7 @@
     .heart {
       width: 12px;
       height: 11px;
-      background: #ffb6dd; /* hồng pastel */
+      background: #ffb6dd;
       position: relative;
       transform: rotate(45deg);
       box-shadow: 0 0 8px rgba(255,182,217,0.7);
@@ -89,7 +89,6 @@
       100% { opacity: 0; transform: translateY(120vh) scale(0.8) rotate(360deg); }
     }
 
-    /* Phần còn lại giữ nguyên y chang code anh gửi */
     .screen {
       width: min(90vw, 360px);
       max-height: 95dvh;
@@ -156,6 +155,7 @@
     .btn:active { transform: scale(0.94); background: rgba(255,255,255,0.25); }
     .btn.empty { background: transparent; cursor: default; pointer-events: none; }
     .btn.delete { font-size: clamp(22px, 6.5vw, 26px); }
+
     .message {
       min-height: 24px;
       font-size: clamp(13px, 3.5vw, 15px);
@@ -163,6 +163,7 @@
       opacity: 0.92;
       margin: 16px 0;
     }
+
     .shake { animation: shake 0.4s cubic-bezier(0.36,0.07,0.19,0.97) both; }
     @keyframes shake {
       10%, 90% { transform: translateX(-6px); }
@@ -170,6 +171,7 @@
       30%, 50%, 70% { transform: translateX(-4px); }
       40%, 60% { transform: translateX(4px); }
     }
+
     .loading {
       display: inline-block;
       width: 18px;
@@ -182,11 +184,13 @@
       vertical-align: middle;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+
     .footer {
       font-size: clamp(11px, 3vw, 13px);
       opacity: 0.6;
       margin-top: 16px;
     }
+
     .quiz-box { text-align: left; margin-top: 12px; }
     .question {
       font-size: clamp(14px, 4vw, 16px);
@@ -212,6 +216,7 @@
     .answer-btn:active { transform: scale(0.98); }
     .answer-btn.correct { background: rgba(124,255,179,0.28); border-color: #7CFFB3; }
     .answer-btn.wrong { background: rgba(255,107,107,0.28); border-color: #ff6b6b; }
+
     .next-btn {
       margin-top: 20px;
       width: 100%;
@@ -228,7 +233,6 @@
     }
     .next-btn:hover { background: rgba(255,182,217,0.4); transform: scale(1.03); }
 
-    /* Nút điều khiển nhạc nhỏ ở góc dưới phải */
     #musicBtn {
       position: fixed;
       bottom: 20px;
@@ -251,18 +255,19 @@
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Particles: sao rơi + trái tim hồng pastel rơi cùng -->
   <div class="particles" id="particles"></div>
 
   <div class="screen" id="screen">
-    <!-- PASSWORD STEP -->
     <div class="step active" id="stepPassword">
       <div class="title">Một ngày khó quên</div>
+
       <div class="dots" id="dots">
         <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
       </div>
+
       <div class="keypad" id="keypad">
         <button class="btn" data-num="1">1</button>
         <button class="btn" data-num="2">2</button>
@@ -277,11 +282,11 @@
         <button class="btn" data-num="0">0</button>
         <button class="btn delete" id="delBtn"><i class="fa-solid fa-delete-left"></i></button>
       </div>
+
       <div class="message" id="msg"></div>
       <div class="footer">Gợi ý: Ngày kỷ niệm của chúng ta</div>
     </div>
 
-    <!-- QUIZ STEP -->
     <div class="step" id="stepQuiz">
       <div class="title">Quizizz Love</div>
       <div class="quiz-box">
@@ -293,7 +298,6 @@
       <div class="footer">Không đúng không cho qua nha bé 💕</div>
     </div>
 
-    <!-- FINISH STEP -->
     <div class="step" id="stepFinish">
       <div class="title">Giỏi lắm bây bi</div>
       <div class="message" style="color:#7CFFB3; font-size: clamp(14px,4vw,16px);">
@@ -303,19 +307,20 @@
     </div>
   </div>
 
-  <!-- Nhạc nền lãng mạn (nhạc piano nhẹ nhàng, không bản quyền) -->
-  <audio id="bgMusic" loop>
-    <source src="./khongthoigian.mp3" type="audio/mpeg">
+  <!-- ✅ AUDIO ĐÃ FIX -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="khongthoigian.mp3" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ audio.
   </audio>
 
-  <!-- Nút bật/tắt nhạc nhỏ ở góc dưới phải -->
-  <button id="musicBtn" title="Phát / Dừng nhạc"><i class="fas fa-music"></i></button>
+  <button id="musicBtn" title="Phát / Dừng nhạc">
+    <i class="fas fa-music"></i>
+  </button>
 
   <script>
-    // Config (giữ nguyên)
     const PASS = "1806";
     const REDIRECT = "https://panbap.github.io/HeartBeat/lovequiz.html?id=eyJsIjoiIiwibSI6IiIsIm4iOiJCw6J5IGJpIMahaSBhbmggY8OzIMSRaeG7gXUgbXXhu5FuIG7Ds2kuLi4uIiwibyI6IkFuaCB0aMawxqFuZyBiw6kgbmhp4buBdSBs4bqvbSAiLCJnIjoiROG6oSBiw6kgbmdoZSEiLCJoIjoiTmdoZSBz4bq9IGPDsyBxdcOgIG5ow7MhIn0%3D";
+
     const quiz = [
       { q: "1) Tin nhắn đầu tiên của chúng mình là gì?", a: ["Helu Bèo","Hellu Bèo","Dô nghiện","Helu Tiêu😒"], c:0 },
       { q: "2) SetLove là ngày nào?", a: ["18/10","19/08","18/09","Bé hong nhớ"], c:2 },
@@ -323,7 +328,6 @@
       { q: "4) Em thấy mình là người như thế nào?", a: ["Quá xinh","Quá tâm lý","Yêu Dương Minh nhất","Bé lấy hết"], c:3 }
     ];
 
-    // Elements (giữ nguyên)
     const el = {
       screen: document.getElementById("screen"),
       msg: document.getElementById("msg"),
@@ -333,39 +337,62 @@
       delBtn: document.getElementById("delBtn"),
       nextBtn: document.getElementById("nextBtn"),
       answers: document.getElementById("answers"),
-      qText: document.getElementById("qText")
+      qText: document.getElementById("qText"),
+      musicBtn: document.getElementById("musicBtn"),
+      audio: document.getElementById("bgMusic")
     };
 
     let pin = "";
     let qIndex = 0;
     let answered = false;
 
-    const updateDots = () => el.dots.forEach((d,i) => d.classList.toggle("filled", i < pin.length));
+    function updateDots() {
+      el.dots.forEach((d, i) => d.classList.toggle("filled", i < pin.length));
+    }
 
-    const addNum = num => {
+    function playMusicSafe() {
+      el.audio.volume = 0.85;
+
+      el.audio.play()
+        .then(() => {
+          el.musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        })
+        .catch(() => {
+          el.msg.style.color = "#ffd1e8";
+          el.msg.innerText = "Bé bấm nút 🎵 để bật nhạc nha 😘";
+        });
+    }
+
+    function addNum(num) {
       if (pin.length >= 4) return;
       pin += num;
       updateDots();
       if (pin.length === 4) checkPin();
-    };
+    }
 
-    const removeLast = () => {
-      pin = pin.slice(0,-1);
+    function removeLast() {
+      pin = pin.slice(0, -1);
       updateDots();
       el.msg.textContent = "";
-    };
+    }
 
-    const checkPin = () => {
+    function checkPin() {
       if (pin === PASS) {
         el.msg.style.color = "#7CFFB3";
         el.msg.innerHTML = "Gút chop ... <span class='loading'></span>";
-        // Phát nhạc khi đúng mật khẩu
-        const audio = document.getElementById("bgMusic");
-        audio.play().catch(() => console.log("Tự động phát bị chặn, nhấn nút nhạc nhé"));
-        setTimeout(() => { show("stepQuiz"); startQuiz(); }, 900);
+
+        // ✅ Play nhạc chắc chắn sau khi đúng mật khẩu
+        playMusicSafe();
+
+        setTimeout(() => {
+          show("stepQuiz");
+          startQuiz();
+        }, 900);
+
       } else {
         el.msg.style.color = "#ff6b6b";
         el.msg.textContent = "Sai gòi😭";
+
         el.screen.classList.add("shake");
         setTimeout(() => {
           el.screen.classList.remove("shake");
@@ -374,22 +401,27 @@
           el.msg.textContent = "";
         }, 900);
       }
-    };
+    }
 
-    const show = id => {
+    function show(id) {
       document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
       document.getElementById(id).classList.add("active");
-    };
+    }
 
-    const startQuiz = () => { qIndex = 0; loadQ(); };
+    function startQuiz() {
+      qIndex = 0;
+      loadQ();
+    }
 
-    const loadQ = () => {
+    function loadQ() {
       answered = false;
       el.quizMsg.textContent = "";
       el.nextBtn.style.display = "none";
+
       const curr = quiz[qIndex];
       el.qText.textContent = curr.q;
       el.answers.innerHTML = "";
+
       curr.a.forEach((txt, i) => {
         const b = document.createElement("button");
         b.className = "answer-btn";
@@ -397,9 +429,9 @@
         b.addEventListener("click", () => pick(i, b));
         el.answers.appendChild(b);
       });
-    };
+    }
 
-    const pick = (idx, btn) => {
+    function pick(idx, btn) {
       if (answered) return;
       const curr = quiz[qIndex];
       const all = el.answers.querySelectorAll(".answer-btn");
@@ -420,17 +452,18 @@
           el.quizMsg.textContent = "";
         }, 600);
       }
-    };
+    }
 
-    const nextQ = () => {
+    function nextQ() {
       qIndex++;
       if (qIndex >= quiz.length) {
         show("stepFinish");
         setTimeout(() => location.href = REDIRECT, 1800);
-      } else loadQ();
-    };
+      } else {
+        loadQ();
+      }
+    }
 
-    // Events (giữ nguyên)
     el.keypad.addEventListener("click", e => {
       const b = e.target.closest(".btn");
       if (!b || b.classList.contains("empty")) return;
@@ -446,44 +479,40 @@
       if (e.key === "Backspace") removeLast();
     });
 
-    // Tạo sao rơi + trái tim hồng pastel rơi cùng (giữ nguyên)
     function createParticles() {
-      const container = document.createElement("div");
-      container.className = "particles";
-      document.body.appendChild(container);
+      const container = document.getElementById("particles");
       for (let i = 0; i < 120; i++) {
         const particle = document.createElement("div");
         particle.className = "particle";
-        if (Math.random() > 0.6) { // 40% là trái tim, 60% là sao
-          particle.classList.add("heart");
-        } else {
-          particle.classList.add("star");
-        }
+
+        if (Math.random() > 0.6) particle.classList.add("heart");
+        else particle.classList.add("star");
+
         const size = Math.random() * 3 + 0.8;
         particle.style.width = particle.style.height = size + "px";
         particle.style.left = Math.random() * 100 + "vw";
         particle.style.top = Math.random() * -30 + "vh";
         particle.style.animationDuration = (Math.random() * 16 + 12) + "s";
         particle.style.animationDelay = "-" + Math.random() * 25 + "s";
+
         container.appendChild(particle);
       }
     }
 
-    // Khởi tạo nền động
     createParticles();
 
-    // Điều khiển nhạc (Play/Pause)
-    const musicBtn = document.getElementById("musicBtn");
-    const audio = document.getElementById("bgMusic");
-    musicBtn.onclick = () => {
-      if (audio.paused) {
-        audio.play();
-        musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    // ✅ Nút nhạc
+    el.musicBtn.onclick = () => {
+      if (el.audio.paused) {
+        el.audio.play().then(() => {
+          el.musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        });
       } else {
-        audio.pause();
-        musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+        el.audio.pause();
+        el.musicBtn.innerHTML = '<i class="fas fa-music"></i>';
       }
     };
   </script>
+
 </body>
 </html>
