@@ -16,13 +16,11 @@
       box-sizing: border-box;
       font-family: "Inter", sans-serif;
     }
-
     html, body {
       height: 100dvh;
       width: 100dvw;
       overflow: hidden;
     }
-
     body {
       display: grid;
       place-items: center;
@@ -32,7 +30,6 @@
       -webkit-tap-highlight-color: transparent;
       position: relative;
     }
-
     body::before,
     body::after {
       content: "";
@@ -84,12 +81,11 @@
       top: -6px;
     }
     .heart::before { left: -6px; }
-    .heart::after  { right: -6px; }
-
+    .heart::after { right: -6px; }
     @keyframes gentleFall {
-      0%   { opacity: 0; transform: translateY(-20vh) scale(0.5) rotate(0deg); }
-      20%  { opacity: 0.8; }
-      80%  { opacity: 0.8; }
+      0% { opacity: 0; transform: translateY(-20vh) scale(0.5) rotate(0deg); }
+      20% { opacity: 0.8; }
+      80% { opacity: 0.8; }
       100% { opacity: 0; transform: translateY(120vh) scale(0.8) rotate(360deg); }
     }
 
@@ -108,7 +104,6 @@
       position: relative;
       z-index: 1;
     }
-
     .title {
       font-size: clamp(20px, 5vw, 24px);
       font-weight: 700;
@@ -117,10 +112,8 @@
       font-family: cursive;
       letter-spacing: 0.3px;
     }
-
     .step { display: none; }
     .step.active { display: block; }
-
     .dots {
       display: flex;
       justify-content: center;
@@ -139,7 +132,6 @@
       border-color: white;
       box-shadow: 0 0 12px rgba(255,255,255,0.7);
     }
-
     .keypad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -164,7 +156,6 @@
     .btn:active { transform: scale(0.94); background: rgba(255,255,255,0.25); }
     .btn.empty { background: transparent; cursor: default; pointer-events: none; }
     .btn.delete { font-size: clamp(22px, 6.5vw, 26px); }
-
     .message {
       min-height: 24px;
       font-size: clamp(13px, 3.5vw, 15px);
@@ -172,7 +163,6 @@
       opacity: 0.92;
       margin: 16px 0;
     }
-
     .shake { animation: shake 0.4s cubic-bezier(0.36,0.07,0.19,0.97) both; }
     @keyframes shake {
       10%, 90% { transform: translateX(-6px); }
@@ -180,7 +170,6 @@
       30%, 50%, 70% { transform: translateX(-4px); }
       40%, 60% { transform: translateX(4px); }
     }
-
     .loading {
       display: inline-block;
       width: 18px;
@@ -193,13 +182,11 @@
       vertical-align: middle;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .footer {
       font-size: clamp(11px, 3vw, 13px);
       opacity: 0.6;
       margin-top: 16px;
     }
-
     .quiz-box { text-align: left; margin-top: 12px; }
     .question {
       font-size: clamp(14px, 4vw, 16px);
@@ -225,7 +212,6 @@
     .answer-btn:active { transform: scale(0.98); }
     .answer-btn.correct { background: rgba(124,255,179,0.28); border-color: #7CFFB3; }
     .answer-btn.wrong { background: rgba(255,107,107,0.28); border-color: #ff6b6b; }
-
     .next-btn {
       margin-top: 20px;
       width: 100%;
@@ -241,6 +227,28 @@
       display: none;
     }
     .next-btn:hover { background: rgba(255,182,217,0.4); transform: scale(1.03); }
+
+    /* Nút điều khiển nhạc nhỏ ở góc dưới phải */
+    #musicBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(255,182,217,0.3);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      color: #ffb6d9;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: all 0.3s;
+    }
+    #musicBtn:hover {
+      background: rgba(255,182,217,0.5);
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>
@@ -295,8 +303,17 @@
     </div>
   </div>
 
+  <!-- Nhạc nền lãng mạn (nhạc piano nhẹ nhàng, không bản quyền) -->
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/07/14/audio_2b7d8a0d0a.mp3?filename=romantic-piano-208651.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ audio.
+  </audio>
+
+  <!-- Nút bật/tắt nhạc nhỏ ở góc dưới phải -->
+  <button id="musicBtn" title="Phát / Dừng nhạc"><i class="fas fa-music"></i></button>
+
   <script>
-    // Config
+    // Config (giữ nguyên)
     const PASS = "1806";
     const REDIRECT = "https://panbap.github.io/HeartBeat/lovequiz.html?id=eyJsIjoiIiwibSI6IiIsIm4iOiJCw6J5IGJpIMahaSBhbmggY8OzIMSRaeG7gXUgbXXhu5FuIG7Ds2kuLi4uIiwibyI6IkFuaCB0aMawxqFuZyBiw6kgbmhp4buBdSBs4bqvbSAiLCJnIjoiROG6oSBiw6kgbmdoZSEiLCJoIjoiTmdoZSBz4bq9IGPDsyBxdcOgIG5ow7MhIn0%3D";
     const quiz = [
@@ -306,7 +323,7 @@
       { q: "4) Em thấy mình là người như thế nào?", a: ["Quá xinh","Quá tâm lý","Yêu Dương Minh nhất","Bé lấy hết"], c:3 }
     ];
 
-    // Elements
+    // Elements (giữ nguyên)
     const el = {
       screen: document.getElementById("screen"),
       msg: document.getElementById("msg"),
@@ -342,6 +359,9 @@
       if (pin === PASS) {
         el.msg.style.color = "#7CFFB3";
         el.msg.innerHTML = "Gút chop ... <span class='loading'></span>";
+        // Phát nhạc khi đúng mật khẩu
+        const audio = document.getElementById("bgMusic");
+        audio.play().catch(() => console.log("Tự động phát bị chặn, nhấn nút nhạc nhé"));
         setTimeout(() => { show("stepQuiz"); startQuiz(); }, 900);
       } else {
         el.msg.style.color = "#ff6b6b";
@@ -410,7 +430,7 @@
       } else loadQ();
     };
 
-    // Events
+    // Events (giữ nguyên)
     el.keypad.addEventListener("click", e => {
       const b = e.target.closest(".btn");
       if (!b || b.classList.contains("empty")) return;
@@ -426,27 +446,24 @@
       if (e.key === "Backspace") removeLast();
     });
 
-    // Tạo sao rơi + trái tim hồng pastel rơi cùng (lãng mạn hơn)
+    // Tạo sao rơi + trái tim hồng pastel rơi cùng (giữ nguyên)
     function createParticles() {
       const container = document.createElement("div");
       container.className = "particles";
       document.body.appendChild(container);
-
       for (let i = 0; i < 120; i++) {
         const particle = document.createElement("div");
         particle.className = "particle";
-
         if (Math.random() > 0.6) { // 40% là trái tim, 60% là sao
           particle.classList.add("heart");
         } else {
           particle.classList.add("star");
         }
-
         const size = Math.random() * 3 + 0.8;
         particle.style.width = particle.style.height = size + "px";
         particle.style.left = Math.random() * 100 + "vw";
         particle.style.top = Math.random() * -30 + "vh";
-        particle.style.animationDuration = (Math.random() * 16 + 12) + "s";  // rơi chậm, nhẹ nhàng
+        particle.style.animationDuration = (Math.random() * 16 + 12) + "s";
         particle.style.animationDelay = "-" + Math.random() * 25 + "s";
         container.appendChild(particle);
       }
@@ -454,6 +471,19 @@
 
     // Khởi tạo nền động
     createParticles();
+
+    // Điều khiển nhạc (Play/Pause)
+    const musicBtn = document.getElementById("musicBtn");
+    const audio = document.getElementById("bgMusic");
+    musicBtn.onclick = () => {
+      if (audio.paused) {
+        audio.play();
+        musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      } else {
+        audio.pause();
+        musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+      }
+    };
   </script>
 </body>
 </html>
