@@ -92,8 +92,8 @@
       80%  { opacity: 0.8; }
       100% { opacity: 0; transform: translateY(120vh) scale(0.8) rotate(360deg); }
     }
-    
 
+    /* Phần còn lại giữ nguyên y chang code anh gửi */
     .screen {
       width: min(90vw, 360px);
       max-height: 95dvh;
@@ -106,6 +106,7 @@
       box-shadow: 0 10px 40px rgba(0,0,0,0.6);
       text-align: center;
       position: relative;
+      z-index: 1;
     }
 
     .title {
@@ -199,7 +200,6 @@
       margin-top: 16px;
     }
 
-    /* Quiz styles */
     .quiz-box { text-align: left; margin-top: 12px; }
     .question {
       font-size: clamp(14px, 4vw, 16px);
@@ -241,31 +241,12 @@
       display: none;
     }
     .next-btn:hover { background: rgba(255,182,217,0.4); transform: scale(1.03); }
-
-    /* Nút nhạc nhỏ ở góc dưới */
-    #musicBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-      background: rgba(255,182,217,0.3);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-      color: #ffb6d9;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      transition: all 0.3s;
-    }
-    #musicBtn:hover {
-      background: rgba(255,182,217,0.5);
-      transform: scale(1.1);
-    }
   </style>
 </head>
 <body>
+
+  <!-- Particles: sao rơi + trái tim hồng pastel rơi cùng -->
+  <div class="particles" id="particles"></div>
 
   <div class="screen" id="screen">
     <!-- PASSWORD STEP -->
@@ -314,15 +295,6 @@
     </div>
   </div>
 
-  <!-- Nhạc nền (thay link nhạc anh thích vào đây) -->
-  <audio id="bgMusic" loop>
-    <source src="https://lovelys2.vercel.app/g.mp3" type="audio/mpeg">
-    Trình duyệt của bạn không hỗ trợ audio.
-  </audio>
-
-  <!-- Nút Play/Pause nhạc (góc dưới phải) -->
-  <button id="musicBtn" title="Phát/Dừng nhạc"><i class="fas fa-music"></i></button>
-
   <script>
     // Config
     const PASS = "1806";
@@ -370,8 +342,6 @@
       if (pin === PASS) {
         el.msg.style.color = "#7CFFB3";
         el.msg.innerHTML = "Gút chop ... <span class='loading'></span>";
-        // Bắt đầu phát nhạc khi đúng mật khẩu
-        document.getElementById("bgMusic").play().catch(() => console.log("Tự động play bị chặn, nhấn Play Music nhé"));
         setTimeout(() => { show("stepQuiz"); startQuiz(); }, 900);
       } else {
         el.msg.style.color = "#ff6b6b";
@@ -436,11 +406,7 @@
       qIndex++;
       if (qIndex >= quiz.length) {
         show("stepFinish");
-        setTimeout(() => {
-          // Dừng nhạc trước khi redirect (nếu muốn)
-          document.getElementById("bgMusic").pause();
-          location.href = REDIRECT;
-        }, 1800);
+        setTimeout(() => location.href = REDIRECT, 1800);
       } else loadQ();
     };
 
@@ -460,21 +426,34 @@
       if (e.key === "Backspace") removeLast();
     });
 
-    // Nút Play/Pause nhạc
-    const musicBtn = document.createElement("button");
-    musicBtn.id = "musicBtn";
-    musicBtn.innerHTML = '<i class="fas fa-play"></i>';
-    musicBtn.onclick = () => {
-      const audio = document.getElementById("bgMusic");
-      if (audio.paused) {
-        audio.play();
-        musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
-      } else {
-        audio.pause();
-        musicBtn.innerHTML = '<i class="fas fa-play"></i>';
+    // Tạo sao rơi + trái tim hồng pastel rơi cùng (lãng mạn hơn)
+    function createParticles() {
+      const container = document.createElement("div");
+      container.className = "particles";
+      document.body.appendChild(container);
+
+      for (let i = 0; i < 120; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+
+        if (Math.random() > 0.6) { // 40% là trái tim, 60% là sao
+          particle.classList.add("heart");
+        } else {
+          particle.classList.add("star");
+        }
+
+        const size = Math.random() * 3 + 0.8;
+        particle.style.width = particle.style.height = size + "px";
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.top = Math.random() * -30 + "vh";
+        particle.style.animationDuration = (Math.random() * 16 + 12) + "s";  // rơi chậm, nhẹ nhàng
+        particle.style.animationDelay = "-" + Math.random() * 25 + "s";
+        container.appendChild(particle);
       }
-    };
-    document.body.appendChild(musicBtn);
+    }
+
+    // Khởi tạo nền động
+    createParticles();
   </script>
 </body>
 </html>
